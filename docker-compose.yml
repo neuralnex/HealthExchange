@@ -1,0 +1,9 @@
+services:
+  exchange:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/env.example
+    environment:
+      UHRES_CORS_ORIGINS: "*"

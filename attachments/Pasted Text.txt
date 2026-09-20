@@ -1,0 +1,209 @@
+A state can run this. You still prototype it with two hospitals; the architecture is what you defend as statewide.
+U-HRES at state scale is a state Health Information Exchange: hospitals keep records; the state node holds identity, facilities, consent, routing, and audit. That matches Nigeria’s multi-HIE idea (state HIE + shared APIs + FHIR).
+
+1. What a state node is responsible for
+State HIE does
+State HIE does not do
+Health Client Registry (UHID ↔ NIN ↔ facility MRNs)
+Store every hospital’s full chart
+Health Facility Registry
+Replace hospital EMRs
+Practitioner / organisation directory
+Nationwide claims (that is HCX)
+Record locator (“who has data”)
+Radiology PACS archive
+Consent and purpose-of-use
+Train AI on images
+FHIR gateway + audit
+Paper scanning for all PHCs on day one
+Push (referrals, discharge) and pull (ER query)
+
+Clinical systems of record stay in the hospital. The state runs digital public infrastructure.
+
+2. Statewide logical architecture
+                    ┌─────────────────────────────────────────┐
+                    │         STATE DIGITAL HEALTH PLANE       │
+                    │  Identity  •  Registries  •  Policy      │
+                    │  Gateway   •  Audit       •  Ops         │
+                    └───────────────┬─────────────────────────┘
+                                    │ FHIR R4 + mTLS
+          ┌─────────────────────────┼─────────────────────────┐
+          ▼                         ▼                         ▼
+   ┌─────────────┐           ┌─────────────┐           ┌─────────────┐
+   │ Teaching    │           │ General     │           │ PHC / Lab / │
+   │ Hospital A  │           │ Hospital B  │           │ Pharmacy    │
+   │ EMR + FHIR  │           │ EMR + FHIR  │           │ adapter     │
+   │ façade      │           │ façade      │           │             │
+   └─────────────┘           └─────────────┘           └─────────────┘
+          ▲                         ▲
+          │                         │
+          └──────── clinician UI ───┘
+               SMART-on-FHIR or U-HRES portal
+Three planes:
+	1	Facility plane — EMR, local FHIR server or adapter, local users.
+	2	Exchange plane — U-HRES state node.
+	3	Consumer plane — clinician app, later patient view, public-health extract (de-identified).
+
+3. State node — services (this is the “bigger than MVP” product)
+Treat these as separately deployable services. In the student build, several can be modules in one FastAPI app. In a state deploy, they split.
+A. Registries (source of truth for “who”)
+Service
+Stores
+Why a state needs it
+Client Registry (CR)
+UHID, NIN (if present), demographics, match links, merge history
+Same person across LGA hospitals
+Facility Registry (FR)
+Public/private facilities, HFR code, FHIR base URL, status
+You cannot route without knowing the facility
+Practitioner Registry (PR)
+Clinician ID, licence, org, role
+Tokens must map to a real treating clinician
+Terminology
+ICD-11 / SNOMED / LOINC / RxNorm subsets + local codes
+Labs and meds stay comparable
+UHID is internal. NIN is an identifier on the client record, never the only key (coverage is incomplete).
+B. Exchange
+Service
+Job
+Record Locator Service (RLS)
+UHID → [{facility, patientId, lastUpdated, categories}]
+FHIR Gateway
+AuthZ, consent, fan-out query, assemble International Patient Summary–style bundle
+Inbound adapter
+HL7 v2 ADT/ORU → FHIR (most Nigerian EMRs still speak v2)
+Push / subscription
+Discharge summary, referral, lab to a named facility
+Document store (optional)
+C-CDA / PDF pointers or short-lived copies, not the EMR
+C. Trust, policy, evidence
+Service
+Job
+AuthN
+Keycloak (or similar): hospital IdP or state IdP, MFA for clinicians
+AuthZ
+OAuth2 + SMART scopes + purpose-of-use (treatment, emergency, public-health)
+Consent
+Patient / facility policy: allow, deny, time-bound, category-level (HIV, mental health)
+Break-glass
+Emergency override + mandatory reason + after-action review queue
+Audit
+Every search, read, break-glass, merge; hash-chained or WORM storage; 6-year retention mindset
+Privacy
+Encrypt in transit (TLS 1.3) and at rest; field-level for NIN; no PHI in logs
+D. State operations
+Service
+Job
+Admin console
+Onboard facility, rotate certs, review matches, review break-glass
+Patient matching workbench
+Clerks resolve 0.60–0.89 scores
+Monitoring
+Latency, FHIR error rates, queue depth, uptime per LGA
+DHIS2 / NDR bridge
+Aggregate, de-identified indicators only — not identifiable EHR dump
+
+4. Data flows a state actually uses
+1. Registration (ADT) Hospital registers/updates patient → adapter sends FHIR Patient + identifier → CR matches or creates UHID → RLS notes “facility X has this patient.”
+2. Emergency pull (the demo) Clinician at B searches → CR returns candidates → confirm → Gateway checks consent/treatment relationship → queries A and B FHIR → returns summary → AuditEvent.
+3. Discharge push A posts Composition / DocumentReference (discharge) targeted at B or the patient’s primary PHC.
+4. Referral ServiceRequest + supporting info; B acknowledges.
+5. Public health (later) Scheduled bulk export of de-identified FHIR to the state warehouse. Identifiable queries stay on the exchange with legal basis.
+
+5. Information model (minimum statewide dataset)
+Not the whole EMR. A state care summary:
+	•	Patient (demographics, NIN if any, contacts)
+	•	Allergies
+	•	Medications (active)
+	•	Problems / conditions
+	•	Encounters (last 12–24 months)
+	•	Key labs / vitals
+	•	Immunizations
+	•	Consent
+	•	Provenance (which facility asserted what)
+Encode as FHIR R4. When Nigeria Core / DHIN profiles exist for a resource, constrain to them.
+
+6. Identity design (this is the statewide hard part)
+Facility MRN  ──┐
+NIN (optional)──┼──►  UHID  (state namespace, e.g. NG-{state}-########)
+Phone / name / DOB / sex / address ──┘
+Matching policy:
+Score
+Action
+NIN exact + DOB consistent
+Auto-link
+≥ 0.90 demographic
+Auto-suggest; clinician or clerk confirm
+0.60–0.89
+Workbench queue
+< 0.60
+New UHID
+Never auto-merge on name alone. Store merge/unmerge history. Twins and similar names are a marked test case.
+
+7. Security model a state can defend
+Trust domain: only onboarded facilities with:
+	•	Registered org in FR
+	•	Client certificate or private-link
+	•	Named DPO contact
+	•	Data-sharing agreement (state + facility)
+Request path:
+	1	Clinician authenticates at home hospital (or state IdP).
+	2	Hospital token exchanged at gateway for a constrained access token: org, practitioner, purpose, patient (after match).
+	3	Gateway enforces: facility active, role allowed, consent or break-glass, minimum necessary categories.
+	4	Downstream FHIR calls use service credentials, not the clinician’s password.
+	5	Audit writes before the response is returned.
+Network: state government network / SD-WAN / site-to-site VPN. Public internet only with mTLS and IP allowlists. PHCs with bad internet get store-and-forward adapters, not chatty live FHIR.
+NDPA 2023: health data is sensitive; legal basis = care + consent (and emergency exception you document). Prototype uses synthetic data; production needs DPIA, NDPC registration posture, retention schedule.
+
+8. Deployment topology (state, not laptop)
+Region: e.g. state data centre + one DR region
+
+  Ingress / API gateway
+       │
+  ┌────┴─────┐
+  Keycloak   FHIR Gateway (stateless, N replicas)
+       │
+  CR / RLS / Consent  (Postgres primary + replica)
+  Audit               (append-only store)
+  Redis               (sessions, rate limits)
+  Kafka or NATS       (ADT, match jobs, notifications)
+       │
+  Object storage      (discharge PDFs, encrypted)
+Hospitals: FHIR façade VM or container on-prem if the EMR cannot speak FHIR. That façade is how a state onboards mixed vendors.
+Student machine maps to this with Docker: 2× HAPI, 1× API, 1× Postgres, 1× UI. Same boundaries, fewer replicas.
+
+9. Facility onboarding (product, not an afterthought)
+A state lives or dies on this checklist:
+	1	Facility appears in FR (code, type, LGA).
+	2	Technical contact + certificate.
+	3	Adapter: FHIR R4 or HL7 v2 feed.
+	4	Test Patient + test encounter accepted.
+	5	Two-way query in staging.
+	6	Go-live: ADT on, summary query on, break-glass trained.
+	7	Quarterly access review.
+Admin console screens: Onboard, Certs, Feeds health, Match queue, Break-glass review.
+
+10. What you implement in the final-year product vs later
+Now (still “state architecture,” runnable)
+	•	FR + CR + RLS (simplified tables)
+	•	Two hospital FHIR nodes
+	•	Gateway: search, confirm, summary, consent, break-glass, audit
+	•	Clinician portal + admin (facilities, match queue, audit)
+	•	Seed 20–50 synthetic patients, including name variants
+Phase 2 (write as future work, design it now)
+	•	Keycloak + SMART on FHIR launch inside an EMR
+	•	HL7 v2 adapter
+	•	Kafka for ADT
+	•	Category-level consent (HIV)
+	•	DHIS2 aggregate export
+	•	Multi-LGA rollout, HA/DR
+Phase 3 (do not promise)
+	•	Every PHC, claims exchange, national QHIN-style peering, AI
+That phasing is how you claim “a state can use this” without lying about your timeline.
+
+11. Chapter 3 diagram labels (use these names)
+Figure 3.1 Statewide federated HIE Figure 3.2 State node services (registries, gateway, policy, ops) Figure 3.3 Emergency query sequence (clinician → gateway → CR → hospital FHIR → summary → audit) Figure 3.4 UHID / NIN / MRN relationship Figure 3.5 Onboarding pipeline
+
+12. One-sentence architecture statement (thesis + pitch)
+U-HRES is a state-level federated Health Information Exchange: a client and facility registry plus consent-aware FHIR gateway that lets authorised clinicians retrieve a minimum care summary from source EMRs without centralising full patient charts.
+If you want the next drop to be implementable, I will give you the Postgres schema for CR/FR/RLS/consent/audit, the gateway sequence in code-shaped endpoints, and the React screen list for clinician + state admin — still one repo, but with service boundaries that match this architecture.
