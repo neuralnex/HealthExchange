@@ -129,10 +129,20 @@ function SearchPage() {
       {results ? (
         <ul className="mt-8 space-y-3">
           {results.length === 0 ? (
-            <li className="text-sm text-fg-muted">No candidates above the review threshold.</li>
+            <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-12 text-center">
+              <p className="text-sm text-fg-muted">No candidates above the review threshold.</p>
+              <Button
+                className="mt-4"
+                variant="secondary"
+                onClick={() => void navigate({ to: "/portal/register" })}
+              >
+                Register New Patient
+              </Button>
+            </div>
           ) : (
             results.map((c) => (
               <li key={c.uhid}>
+
                 <Card className="rounded-lg p-4 md:p-5">
                   <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                     <div>

@@ -81,6 +81,18 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
+  register: (body: { demographics: Demographics; mrn: string }) =>
+    request<{ client: ClientRecord; link: RecordLink }>("mpi/register", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  contribute: (body: { facilityId: string; localPatientId: string; resource: FhirResource }) =>
+    request<{ ok: boolean; link: RecordLink }>("records/contribute", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  reject: (queueId: string, note?: string) =>
+  reject: (queueId: string, note?: string) =>
   reject: (queueId: string, note?: string) =>
     request<{ ok: boolean }>("mpi/reject", {
       method: "POST",
@@ -118,4 +130,6 @@ export const api = {
     request<{ resources: FhirResource[] }>(`records/${facilityId}/${patientId}`),
   stats: () => request<{ stats: Record<string, number> }>("stats"),
   reset: () => request<{ ok: boolean }>("demo/reset", { method: "POST" }),
+  verifyAudit: () =>
+    request<{ verified: boolean; corruptionIndex: number | null; details: string; chainLength?: number }>("audit/verify"),
 };

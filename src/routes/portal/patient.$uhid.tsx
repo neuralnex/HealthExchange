@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, Lock, Shield } from "lucide-react";
+import { AlertTriangle, Lock, Shield, Plus, Eye, History } from "lucide-react";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { api } from "@/lib/hie/client";
+import { useSession } from "@/lib/hie/session";
 import type { AuditEvent, CareSummary, FhirResource } from "@/lib/hie/types";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/portal/patient/$uhid")({
   component: PatientSummary,
@@ -14,12 +18,22 @@ export const Route = createFileRoute("/portal/patient/$uhid")({
 
 function PatientSummary() {
   const { uhid } = Route.useParams();
+  const { user } = useSession();
   const [summary, setSummary] = useState<CareSummary | null>(null);
   const [denied, setDenied] = useState<string | null>(null);
   const [reason, setReason] = useState("Emergency treatment: patient unable to confirm identity history");
   const [busy, setBusy] = useState(false);
   const [audit, setAudit] = useState<AuditEvent[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  // Modal states
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState<{ resource: FhirResource; title: string } | null>(null);
+  const [contributionForm, setContributionForm] = useState({
+    type: "Observation",
+    value: "",
+    date: new Date().toISOString().split("T")[0],
+  });
 
   const load = useCallback(async () => {
     setBusy(true);
@@ -65,6 +79,43 @@ function PatientSummary() {
     }
   }
 
+  async function onContribute() {
+    if (!user?.facilityId) {
+      setError("No facility context available for this user");
+      return;
+    }
+
+    setBusy(true);
+    setError(null);
+    try {
+      const link = summary?.sources.find(s => s.facilityId === user.facilityId);
+      if (!link) {
+        throw new Error(`Patient not linked to your facility (${user.facilityId})`);
+      }
+
+      const resource: FhirResource = {
+        resourceType: contributionForm.type,
+        id: `${user.facilityId}-${Date.now()}`,
+        code: { text: contributionForm.value },
+        effectiveDateTime: contributionForm.date,
+        subject: { reference: `Patient/${link.facilityId}-local` },
+      };
+
+      await api.contribute({
+        facilityId: user.facilityId,
+        localPatientId: `local-pt-${uhid}`,
+        resource,
+      });
+
+      setShowAddModal(false);
+      void load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Contribution failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const d = summary?.patient;
   const penicillin = summary?.allergies.items.find((a) =>
     String((a.code as { text?: string })?.text ?? "").toLowerCase().includes("penicillin"),
@@ -88,9 +139,19 @@ function PatientSummary() {
             <p className="mt-1 font-mono text-xs text-fg-muted">{uhid}</p>
           )}
         </div>
-        <Link to="/portal/search" className="text-sm text-fg-muted underline-offset-4 hover:underline">
-          Back to search
-        </Link>
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={busy || !summary}
+            onClick={() => setShowAddModal(true)}
+          >
+            <Plus className="mr-1 size-3.5" /> Add Record
+          </Button>
+          <Link to="/portal/search" className="text-sm text-fg-muted underline-offset-4 hover:underline flex items-center">
+            Back to search
+          </Link>
+        </div>
       </div>
 
       {error ? <p className="mt-4 text-sm text-danger">{error}</p> : null}
@@ -161,8 +222,10 @@ function PatientSummary() {
               {summary.allergies.items.map((r) => (
                 <Line
                   key={r.id}
+                  resource={r}
                   title={textOf(r, "code")}
                   meta={`${criticality(r)} · ${sourceOf(r)}`}
+                  onClick={() => setShowDetailModal({ resource: r, title: "Allergy" })}
                 />
               ))}
             </Section>
@@ -170,22 +233,26 @@ function PatientSummary() {
               {summary.medications.items.map((r) => (
                 <Line
                   key={r.id}
+                  resource={r}
                   title={textOf(r, "medicationCodeableConcept")}
                   meta={`${String(r.status)} · ${doseOf(r)} · ${sourceOf(r)}`}
+                  onClick={() => setShowDetailModal({ resource: r, title: "Medication" })}
                 />
               ))}
             </Section>
             <Section title="Problems" empty="No conditions.">
               {summary.conditions.items.map((r) => (
-                <Line key={r.id} title={textOf(r, "code")} meta={`${clinicalOf(r)} · ${sourceOf(r)}`} />
+                <Line key={r.id} resource={r} title={textOf(r, "code")} meta={`${clinicalOf(r)} · ${sourceOf(r)}`} onClick={() => setShowDetailModal({ resource: r, title: "Condition" })} />
               ))}
             </Section>
             <Section title="Encounters" empty="No encounters.">
               {summary.encounters.items.map((r) => (
                 <Line
                   key={r.id}
+                  resource={r}
                   title={encounterType(r)}
                   meta={`${periodOf(r)} · ${sourceOf(r)}`}
+                  onClick={() => setShowDetailModal({ resource: r, title: "Encounter" })}
                 />
               ))}
             </Section>
@@ -193,8 +260,10 @@ function PatientSummary() {
               {summary.observations.items.map((r) => (
                 <Line
                   key={r.id}
+                  resource={r}
                   title={textOf(r, "code")}
                   meta={`${valueOf(r)} · ${sourceOf(r)}`}
+                  onClick={() => setShowDetailModal({ resource: r, title: "Observation" })}
                 />
               ))}
             </Section>
@@ -202,8 +271,10 @@ function PatientSummary() {
               {summary.immunizations.items.map((r) => (
                 <Line
                   key={r.id}
+                  resource={r}
                   title={textOf(r, "vaccineCode")}
                   meta={`${String(r.occurrenceDateTime ?? "")} · ${sourceOf(r)}`}
+                  onClick={() => setShowDetailModal({ resource: r, title: "Immunization" })}
                 />
               ))}
             </Section>
@@ -226,6 +297,86 @@ function PatientSummary() {
       ) : busy && !denied ? (
         <p className="mt-8 text-sm text-fg-muted">Assembling federated summary…</p>
       ) : null}
+
+      {/* Add Record Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <Card className="w-full max-w-md rounded-xl p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-display text-xl tracking-tight">Add Clinical Record</h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowAddModal(false)}>✕</Button>
+            </div>
+            <form
+              className="grid gap-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void onContribute();
+              }}
+            >
+              <div className="space-y-1.5">
+                <Label>Resource Type</Label>
+                <select
+                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  value={contributionForm.type}
+                  onChange={(e) => setContributionForm({ ...contributionForm, type: e.target.value })}
+                >
+                  <option value="AllergyIntolerance">Allergy</option>
+                  <option value="Condition">Condition / Problem</option>
+                  <option value="Observation">Observation / Lab</option>
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <Label>Clinical Finding / Value</Label>
+                <Input
+                  placeholder="e.g. Penicillin allergy or BP 120/80"
+                  value={contributionForm.value}
+                  onChange={(e) => setContributionForm({ ...contributionForm, value: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Date</Label>
+                <Input
+                  type="date"
+                  value={contributionForm.date}
+                  onChange={(e) => setContributionForm({ ...contributionForm, date: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="flex justify-end gap-2 mt-6">
+                <Button type="button" variant="ghost" onClick={() => setShowAddModal(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={busy}>
+                  {busy ? "Saving..." : "Save Record"}
+                </Button>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
+
+      {/* Detail Modal */}
+      {showDetailModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <Card className="w-full max-w-2xl rounded-xl p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-display text-xl tracking-tight">
+              {showDetailModal.title} Detail
+              </h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowDetailModal(null)}>✕</Button>
+            </div>
+            <div className="mt-4 overflow-auto rounded-lg bg-zinc-950 p-4">
+              <pre className="text-xs font-mono text-zinc-300">
+                {JSON.stringify(showDetailModal.resource, null, 2)}
+              </pre>
+            </div>
+            <div className="mt-6 text-right">
+              <Button onClick={() => setShowDetailModal(null)}>Close</Button>
+            </div>
+          </Card>
+        </div>
+      )}
 
       <div className="mt-10">
         <h2 className="font-display text-2xl tracking-tight">Audit for this UHID</h2>
@@ -262,26 +413,24 @@ function Section({
   title,
   empty,
   children,
-}: {
-  title: string;
-  empty: string;
-  children: ReactNode;
 }) {
-  const has = Array.isArray(children) ? children.length > 0 : Boolean(children);
   return (
     <Card className="rounded-lg p-4">
       <div className="mb-3 flex items-center gap-2">
         <Shield className="size-3.5 text-fg-subtle" />
         <h2 className="text-sm font-medium">{title}</h2>
       </div>
-      {has ? <div className="space-y-3">{children}</div> : <p className="text-sm text-fg-muted">{empty}</p>}
+      {children && children.length > 0 ? <div className="space-y-3">{children}</div> : <p className="text-sm text-fg-muted">{empty}</p>}
     </Card>
   );
 }
 
-function Line({ title, meta }: { title: string; meta: string }) {
+function Line({ title, meta, resource, onClick }) {
   return (
-    <div>
+    <div
+      className="cursor-pointer hover:bg-bg-elevated p-1 rounded transition-colors"
+      onClick={onClick}
+    >
       <p className="text-sm font-medium">{title}</p>
       <p className="text-xs text-fg-subtle">{meta}</p>
     </div>
@@ -315,11 +464,6 @@ function periodOf(r: FhirResource): string {
   const p = r.period as { start?: string; end?: string } | undefined;
   if (!p?.start) return "";
   return p.end ? `${p.start.slice(0, 10)} – ${p.end.slice(0, 10)}` : `${p.start.slice(0, 10)} (open)`;
-}
-function valueOf(r: FhirResource): string {
-  const q = r.valueQuantity as { value?: string; unit?: string } | undefined;
-  if (!q) return "";
-  return `${q.value ?? ""} ${q.unit ?? ""}`.trim();
 }
 function attachmentText(r: FhirResource): string {
   const content = r.content as Array<{ attachment?: { data?: string } }> | undefined;

@@ -5,6 +5,8 @@ from __future__ import annotations
 import copy
 import hashlib
 import time
+import os
+import json
 from datetime import datetime, timezone
 from typing import Any
 
@@ -202,20 +204,73 @@ class AccessDeniedError(Exception):
 
 class Engine:
     def __init__(self) -> None:
+        self.data_dir = "data"
+        self.stores_dir = os.path.join(self.data_dir, "stores")
+        self.registry_dir = os.path.join(self.data_dir, "registry")
+        self.system_dir = os.path.join(self.data_dir, "system")
+
+        # Ensure directories exist
+        os.makedirs(self.stores_dir, exist_ok=True)
+        os.makedirs(self.registry_dir, exist_ok=True)
+        os.makedirs(self.system_dir, exist_ok=True)
+
         self.reset()
 
+    def _save_json(self, path: str, data: Any) -> None:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, default=str)
+
+    def _load_json(self, path: str, default: Any) -> Any:
+        if not os.path.exists(path):
+            return default
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            return default
+
     def reset(self) -> None:
-        self.state = _seed()
-        self._audit(
-            actorId="system",
-            actorName="U-HRES",
-            orgId=None,
-            orgName="State node",
-            action="system.seed",
-            resource="ClientRegistry",
-            outcome="success",
-            breakGlass=False,
-        )
+        # Load registries
+        self.state = {
+            "facilities": self._load_json(os.path.join(self.registry_dir, "facilities.json"), []),
+            "practitioners": self._load_json(os.path.join(self.system_dir, "practitioners.json"), []),
+            "clients": self._load_json(os.path.join(self.registry_dir, "clients.json"), []),
+            "links": self._load_json(os.path.join(self.registry_dir, "links.json"), []),
+            "consent": self._load_json(os.path.join(self.registry_dir, "consent.json"), []),
+            "queue": self._load_json(os.path.join(self.system_dir, "queue.json"), []),
+            "audit": self._load_json(os.path.join(self.system_dir, "audit.json"), []),
+            "stores": {}, # Loaded on demand
+        }
+
+        # First-run migration: if critical registries are empty, use seed
+        if not self.state["facilities"]:
+            seed_data = _seed()
+            self.state.update(seed_data)
+
+            # Persist seeded data
+            self._save_json(os.path.join(self.registry_dir, "facilities.json"), self.state["facilities"])
+            self._save_json(os.path.join(self.system_dir, "practitioners.json"), self.state["practitioners"])
+            self._save_json(os.path.join(self.registry_dir, "clients.json"), self.state["clients"])
+            self._save_json(os.path.join(self.registry_dir, "links.json"), self.state["links"])
+            self._save_json(os.path.join(self.registry_dir, "consent.json"), self.state["consent"])
+            self._save_json(os.path.join(self.system_dir, "queue.json"), self.state["queue"])
+            self._save_json(os.path.join(self.system_dir, "audit.json"), self.state["audit"])
+
+            # Persist stores
+            for fid, resources in self.state["stores"].items():
+                self._save_json(os.path.join(self.stores_dir, f"{fid}.json"), resources)
+
+            self._audit(
+                actorId="system",
+                actorName="U-HRES",
+                orgId=None,
+                orgName="State node",
+                action="system.seed",
+                resource="ClientRegistry",
+                outcome="success",
+                breakGlass=False,
+            )
+
 
     def _facility_name(self, fid: str | None) -> str:
         if not fid:
@@ -233,7 +288,165 @@ class Engine:
         digest = hashlib.sha256((prev + payload).encode()).hexdigest()[:16]
         event = {**partial, "id": event_id, "ts": ts, "ip": "10.20.4.12", "prevHash": prev, "hash": digest}
         self.state["audit"].append(event)
+
+        # Persist audit trail
+        self._save_json(os.path.join(self.system_dir, "audit.json"), self.state["audit"])
+
         return event
+
+    def _generate_uhid(self) -> str:
+        """Generates a unique UHID following the NG-IM-######## pattern."""
+        existing_uhids = [c["uhid"] for c in self.state["clients"]]
+        suffixes = []
+        for u in existing_uhids:
+            if u.startswith("NG-IM-") and len(u) == 15:
+                try:
+                    suffixes.append(int(u[6:]))
+                except ValueError:
+                    continue
+
+        next_id = max(suffixes) + 1 if suffixes else 18472
+        return f"NG-IM-{next_id:08d}"
+
+    def register_client(self, demographics: dict, actor: dict, mrn: str) -> dict:
+        """
+        Generates a UHID, stores demographics, links to facility MRN, and audits.
+        """
+        uhid = self._generate_uhid()
+
+        # 1. Create and store the client record
+        client = {
+            "uhid": uhid,
+            "demographics": demographics,
+            "createdAt": _now(),
+        }
+        self.state["clients"].append(client)
+        self._save_json(os.path.join(self.registry_dir, "clients.json"), self.state["clients"])
+
+        # 2. Create initial link to the registering facility
+        facility_id = actor.get("facilityId")
+        local_id = f"{facility_id}-{mrn}" if facility_id else f"unknown-{mrn}"
+
+        link = {
+            "id": f"link-{uhid.split('-')[-1]}-{facility_id}",
+            "uhid": uhid,
+            "facilityId": facility_id,
+            "mrn": mrn,
+            "localPatientId": local_id,
+            "categories": [],
+            "lastUpdated": _now(),
+            "status": "active",
+        }
+        self.state["links"].append(link)
+        self._save_json(os.path.join(self.registry_dir, "links.json"), self.state["links"])
+
+        # 3. Audit the registration event
+        self._audit(
+            actorId=actor["id"],
+            actorName=f"{actor.get('title', '')} {actor['name']}".strip(),
+            orgId=facility_id,
+            orgName=self._facility_name(facility_id),
+            action="mpi.register",
+            resource="ClientRegistry",
+            outcome="success",
+            breakGlass=False,
+            uhid=uhid,
+            purpose="treatment",
+        )
+
+        return {"client": client, "link": link}
+
+    def contribute_record(self, actor: dict, facility_id: str, local_patient_id: str, resource: dict) -> dict:
+        """
+        Appends a clinical resource to a facility store and updates the Record Link categories.
+        """
+        # 1. Facility Validation
+        if not any(f["id"] == facility_id for f in self.state["facilities"]):
+            raise ValueError(f"Facility {facility_id} not found")
+
+        # 2. Append to store (File-based FHIR Facade)
+        store_path = os.path.join(self.stores_dir, f"{facility_id}.json")
+        resources = self._load_json(store_path, [])
+        resources.append(resource)
+        self._save_json(store_path, resources)
+
+        # Update in-memory cache
+        self.state["stores"][facility_id] = resources
+
+        # 3. Update Record Link categories
+        link = next(
+            (l for l in self.state["links"]
+             if l["facilityId"] == facility_id and l["localPatientId"] == local_patient_id),
+            None
+        )
+
+        uhid = None
+        if link:
+            rtype = resource.get("resourceType")
+            if rtype and rtype not in link["categories"]:
+                link["categories"].append(rtype)
+            link["lastUpdated"] = _now()
+            self._save_json(os.path.join(self.registry_dir, "links.json"), self.state["links"])
+            uhid = link["uhid"]
+
+        # 4. Audit event
+        self._audit(
+            actorId=actor["id"],
+            actorName=f"{actor.get('title', '')} {actor['name']}".strip(),
+            orgId=facility_id,
+            orgName=self._facility_name(facility_id),
+            action="clinical.contribute",
+            resource=f"{resource.get('resourceType', 'Unknown')}/{resource.get('id', 'new')}",
+            outcome="success",
+            breakGlass=False,
+            uhid=uhid,
+            purpose="treatment",
+        )
+
+        return {"ok": True, "link": link}
+
+    def verify_audit_chain(self) -> dict:
+        """
+        Verifies the integrity of the audit trail by re-calculating the hash chain.
+        Returns a report indicating if the chain is verified or where corruption occurred.
+        """
+        expected_prev_hash = "genesis"
+
+        for index, event in enumerate(self.state["audit"]):
+            # 1. Verify the pointer (previous hash link)
+            if event["prevHash"] != expected_prev_hash:
+                return {
+                    "verified": False,
+                    "corruptionIndex": index,
+                    "details": f"Chain broken at event {event['id']}: expected prevHash {expected_prev_hash}, found {event['prevHash']}"
+                }
+
+            # 2. Reconstruct payload for hash verification
+            # Remove 'hash' to get the original data used for the digest
+            payload_data = {k: v for k, v in event.items() if k != "hash"}
+            reconstructed_payload = json_dumps(payload_data)
+
+            # 3. Recalculate digest: sha256(prevHash + payload)
+            calculated_hash = hashlib.sha256(
+                (expected_prev_hash + reconstructed_payload).encode()
+            ).hexdigest()[:16]
+
+            if calculated_hash != event["hash"]:
+                return {
+                    "verified": False,
+                    "corruptionIndex": index,
+                    "details": f"Data corruption at event {event['id']}: calculated {calculated_hash}, stored {event['hash']}"
+                }
+
+            # Move the pointer forward
+            expected_prev_hash = event["hash"]
+
+        return {
+            "verified": True,
+            "corruptionIndex": None,
+            "details": "Audit chain integrity verified. All hashes match.",
+            "chainLength": len(self.state["audit"])
+        }
 
     def to_session(self, prac: dict) -> dict:
         fac = next((f for f in self.state["facilities"] if f["id"] == prac["facilityId"]), None)
@@ -330,6 +543,7 @@ class Engine:
         existing = next((l for l in self.state["links"] if l["uhid"] == uhid and l["facilityId"] == facility_id and l["mrn"] == mrn), None)
         if existing:
             existing["status"] = "active"
+            self._save_json(os.path.join(self.registry_dir, "links.json"), self.state["links"])
             return existing
         local_id = "fmco-pt-8842" if mrn == "FMCO-8842" else f"{facility_id}-{mrn}"
         link = {
@@ -343,10 +557,12 @@ class Engine:
             "status": "active",
         }
         self.state["links"].append(link)
+        self._save_json(os.path.join(self.registry_dir, "links.json"), self.state["links"])
         if queue_id:
             for item in self.state["queue"]:
                 if item["id"] == queue_id:
                     item["status"] = "confirmed"
+            self._save_json(os.path.join(self.system_dir, "queue.json"), self.state["queue"])
         self._audit(
             actorId=actor["id"],
             actorName=f"{actor.get('title', '')} {actor['name']}".strip(),
@@ -366,6 +582,7 @@ class Engine:
         if not item:
             raise ValueError("Unknown queue item")
         item["status"] = "rejected"
+        self._save_json(os.path.join(self.system_dir, "queue.json"), self.state["queue"])
         self._audit(
             actorId=actor["id"],
             actorName=f"{actor.get('title', '')} {actor['name']}".strip(),
@@ -420,7 +637,12 @@ class Engine:
         for link in [l for l in self.state["links"] if l["uhid"] == uhid and l["status"] == "active"]:
             fac = next(f for f in self.state["facilities"] if f["id"] == link["facilityId"])
             sources.append({"facilityId": link["facilityId"], "facilityName": fac["shortName"], "lastUpdated": link["lastUpdated"]})
-            for res in self.state["stores"].get(link["facilityId"], []):
+
+            # Load store from file
+            store_path = os.path.join(self.stores_dir, f"{link['facilityId']}.json")
+            resources = self._load_json(store_path, [])
+
+            for res in resources:
                 ref = _patient_ref(res)
                 if res["resourceType"] != "Patient" and ref == link["localPatientId"]:
                     item = {**res, "meta": {"source": fac["shortName"]}}
@@ -433,6 +655,7 @@ class Engine:
             breakGlass=bool(emergency and not consent["allowed"]),
             uhid=uhid, purpose=purpose, reason=break_glass,
         )
+
 
         def pack(rtype: str) -> dict:
             return {"items": buckets.get(rtype, []), "provenance": [s for s in sources]}
@@ -483,6 +706,7 @@ class Engine:
         policy["updatedAt"] = _now()
         if not existing:
             self.state["consent"].append(policy)
+        self._save_json(os.path.join(self.registry_dir, "consent.json"), self.state["consent"])
         self._audit(
             actorId=actor["id"],
             actorName=f"{actor.get('title', '')} {actor['name']}".strip(),
