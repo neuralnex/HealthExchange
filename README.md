@@ -1,73 +1,59 @@
 # U-HRES
+**Unified Health Record Exchange System.** A federated Health Information Exchange (HIE) prototype for the Federal University of Technology, Owerri (FUTO) closed network.
 
-**Unified Health Record Exchange System.** A federated Health Information Exchange prototype for the Federal University of Technology, Owerri (FUTO) closed network.
+## 🌟 Project Vision
+U-HRES solves the problem of fragmented patient data across different healthcare facilities. Instead of a centralized warehouse (which poses security and ownership risks), U-HRES implements a **Federated Architecture**. Clinical data stays at the facility of origin, while a central "Exchange Plane" manages identity, consent, and a tamper-evident audit trail.
 
-Hospitals keep their own records. The campus node holds identity (UHID linked to optional NIN and facility MRNs), a record locator, consent, and an audit trail. Clinical data is queried on demand as FHIR R4 and assembled into a minimum care summary.
+## 🛠 Core Architecture (The "Defendable" Part)
 
-This is a **final-year product prototype** on synthetic patients. It is not a live clinical system, not HIPAA/NDPA certified, and not a national warehouse of charts.
+### 1. The Facility Plane (Data Sovereignty)
+Each facility (FUTO MC, FMC Owerri, Ihiagwa PHC) maintains its own **FHIR Facade**. 
+- **Data Model**: FHIR R4 resources (Patient, Observation, Condition, etc.).
+- **Persistence**: Facility-specific JSON stores.
+- **Sovereignty**: Facilities retain full control over their records; data is only shared upon valid consent or emergency override.
 
-## Closed network
+### 2. The Exchange Plane (The Glue)
+The central node handles the "administrative" side of the exchange:
+- **Master Patient Index (MPI)**: Uses weighted string matching (Jaro-Winkler) to resolve identities across facilities without requiring a perfect NIN.
+- **Unified Health ID (UHID)**: Generates a global identifier (`NG-IM-########`) to link fragmented records.
+- **Consent Engine**: Manages "Permit" or "Deny" directives at the network or facility level.
+- **Cryptographic Audit Trail**: Every access event is hashed and chained (`sha256(prevHash + payload)`), making the log tamper-evident.
 
-| Site | Role | LGA |
-| --- | --- | --- |
-| FUTO Medical Centre (Ihiagwa) | Campus teaching hospital | Owerri West |
-| Federal Medical Centre Owerri | Referral / ER | Owerri Municipal |
-| Ihiagwa Primary Health Centre | PHC | Owerri West |
+### 3. The Consumer Plane (The Interface)
+A modern React-based portal providing:
+- **Clinician View**: Search, UHID confirmation, and a "Minimum Care Summary" (assembled on-the-fly from federated stores).
+- **Patient View**: Transparency log showing exactly who accessed their data and why.
+- **Emergency Access**: "Break-Glass" functionality for life-critical situations, which triggers a high-priority audit flag.
 
-UHID namespace: `NG-IM-########`. NIN is optional.
+## 🚀 End-to-End Flow
+1. **Onboarding**: Registrar $\rightarrow$ MPI Search $\rightarrow$ UHID Assignment $\rightarrow$ Record Linkage.
+2. **Contribution**: Clinician $\rightarrow$ Add FHIR Resource $\rightarrow$ Facility Store $\rightarrow$ Update Link Categories.
+3. **Retrieval**: Search $\rightarrow$ Consent Check $\rightarrow$ Federated Query $\rightarrow$ Summary Assembly.
+4. **Audit**: Access Event $\rightarrow$ Hash Chain $\rightarrow$ Auditor Verification.
 
-## Demo story (five minutes)
-
-1. Chidinma Okafor is known at **FUTO Medical Centre** with a penicillin anaphylaxis, hypertension, and T2DM.
-2. She arrives at **FMC Owerri Emergency** registered as **Chidinma Okafor-Adeyemi** (no NIN captured).
-3. Dr. Emeka Nwosu searches. The matcher proposes **0.91 / confirm**.
-4. Summary appears: penicillin allergy from FUTO Medical Centre.
-5. Audit shows who accessed what.
-6. Patient (or clerk) flips network consent off. Retrieve is denied. Break-glass with a reason. The event is flagged on the audit trail.
-
-Sign in as **Dr. Emeka Nwosu** (`emeeka.nwosu@fmcowerri.gov.ng` / `FutoER2026`).
-
-## Repository
-
+## 📦 Repository Structure
 ```
-backend/          FastAPI exchange (MPI, consent, gateway, audit)
+backend/          FastAPI exchange (MPI, consent, gateway, audit, persistence)
 src/              React clinician + patient portal
-src/lib/hie/      Domain engine used by the portal (same contract as FastAPI)
-env.example       Copy to .env. Never commit secrets.
-docker-compose.yml  Optional API container
+src/lib/hie/      Domain engine used by the portal
+docker-compose.yml  Full stack orchestration with persistent volumes
 ```
 
-Canonical FHIR resources in v1: Patient, Encounter, AllergyIntolerance, MedicationRequest, Condition, Observation, Immunization, DocumentReference, Consent, AuditEvent.
+## 🛠 Getting Started
 
-## Portal (this workspace)
+### Backend (API)
+```bash
+docker-compose up -d --build
+```
+The API runs on port `8000`. Data is persisted in a Docker volume (`hie_data`).
 
+### Frontend (Portal)
 ```bash
 npm install
 npm run dev
 ```
 
-Run the ER lookup from the overview card.
-
-## FastAPI exchange
-
-See [backend/README.md](backend/README.md). Same `/api/hie/*` contract as the portal.
-
-```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
-
-## Architecture (what you defend)
-
-- **Facility plane.** Local FHIR store / EMR façade (FUTO MC, FMC Owerri, Ihiagwa PHC).
-- **Exchange plane.** UHID, matcher, consent, locator, audit. No full-chart warehouse.
-- **Consumer plane.** Clinician portal, patient consent page, auditor export.
-
-UHID is the internal key (`NG-IM-########`). NIN is an identifier when present. Matching covers the rest because NIN coverage is incomplete.
-
-Security in this prototype is **role-based access, token authentication, purpose-of-use, break-glass, and full audit**. It is aligned with zero-trust principles. It is not a full zero-trust programme.
-
-## Out of scope
-
-Real EHR vendors, real PHI, VLM/AI diagnosis, HL7 v2 adapters, Kafka, SMART-on-FHIR embed, DHIS2, nationwide rollout, blockchain.
+## ⚠️ Project Scope
+This is a **final-year academic prototype**.
+- **Included**: Role-Based Access Control (RBAC), Token Auth, FHIR-like data model, Cryptographic Audit.
+- **Out of Scope**: Live EHR integration, HIPAA/NDPA certification, Blockchain, National-scale rollout.
