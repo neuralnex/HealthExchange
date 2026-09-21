@@ -92,8 +92,6 @@ export const api = {
       body: JSON.stringify(body),
     }),
   reject: (queueId: string, note?: string) =>
-  reject: (queueId: string, note?: string) =>
-  reject: (queueId: string, note?: string) =>
     request<{ ok: boolean }>("mpi/reject", {
       method: "POST",
       body: JSON.stringify({ queueId, note }),

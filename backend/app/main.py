@@ -123,6 +123,7 @@ def register(body: dict[str, Any], authorization: str | None = Header(default=No
     )
     return result
 
+@app.post("/api/hie/mpi/confirm")
 def confirm(body: dict[str, Any], authorization: str | None = Header(default=None)):
     user = actor(authorization)
     link = engine.confirm(user, body["uhid"], body["facilityId"], body["mrn"], body.get("queueId"))

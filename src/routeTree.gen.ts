@@ -17,9 +17,11 @@ import { Route as PortalConsentRouteImport } from './routes/portal/consent'
 import { Route as PortalFacilitiesRouteImport } from './routes/portal/facilities'
 import { Route as PortalQueueRouteImport } from './routes/portal/queue'
 import { Route as PortalRecordsRouteImport } from './routes/portal/records'
+import { Route as PortalRegisterRouteImport } from './routes/portal/register'
 import { Route as PortalSearchRouteImport } from './routes/portal/search'
 import { Route as ApiHieSplatRouteImport } from './routes/api/hie/$'
 import { Route as PortalPatientUhidRouteImport } from './routes/portal/patient.$uhid'
+import { Route as PortalPatientUhidAccessLogRouteImport } from './routes/portal/patient/$uhid/access-log'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -61,6 +63,11 @@ const PortalRecordsRoute = PortalRecordsRouteImport.update({
   path: '/records',
   getParentRoute: () => PortalRouteRoute,
 } as any)
+const PortalRegisterRoute = PortalRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => PortalRouteRoute,
+} as any)
 const PortalSearchRoute = PortalSearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -76,6 +83,12 @@ const PortalPatientUhidRoute = PortalPatientUhidRouteImport.update({
   path: '/patient/$uhid',
   getParentRoute: () => PortalRouteRoute,
 } as any)
+const PortalPatientUhidAccessLogRoute =
+  PortalPatientUhidAccessLogRouteImport.update({
+    id: '/access-log',
+    path: '/access-log',
+    getParentRoute: () => PortalPatientUhidRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,10 +98,12 @@ export interface FileRoutesByFullPath {
   '/portal/facilities': typeof PortalFacilitiesRoute
   '/portal/queue': typeof PortalQueueRoute
   '/portal/records': typeof PortalRecordsRoute
+  '/portal/register': typeof PortalRegisterRoute
   '/portal/search': typeof PortalSearchRoute
   '/portal/': typeof PortalIndexRoute
   '/api/hie/$': typeof ApiHieSplatRoute
-  '/portal/patient/$uhid': typeof PortalPatientUhidRoute
+  '/portal/patient/$uhid': typeof PortalPatientUhidRouteWithChildren
+  '/portal/patient/$uhid/access-log': typeof PortalPatientUhidAccessLogRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -97,10 +112,12 @@ export interface FileRoutesByTo {
   '/portal/facilities': typeof PortalFacilitiesRoute
   '/portal/queue': typeof PortalQueueRoute
   '/portal/records': typeof PortalRecordsRoute
+  '/portal/register': typeof PortalRegisterRoute
   '/portal/search': typeof PortalSearchRoute
   '/portal': typeof PortalIndexRoute
   '/api/hie/$': typeof ApiHieSplatRoute
-  '/portal/patient/$uhid': typeof PortalPatientUhidRoute
+  '/portal/patient/$uhid': typeof PortalPatientUhidRouteWithChildren
+  '/portal/patient/$uhid/access-log': typeof PortalPatientUhidAccessLogRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -111,10 +128,12 @@ export interface FileRoutesById {
   '/portal/facilities': typeof PortalFacilitiesRoute
   '/portal/queue': typeof PortalQueueRoute
   '/portal/records': typeof PortalRecordsRoute
+  '/portal/register': typeof PortalRegisterRoute
   '/portal/search': typeof PortalSearchRoute
   '/portal/': typeof PortalIndexRoute
   '/api/hie/$': typeof ApiHieSplatRoute
-  '/portal/patient/$uhid': typeof PortalPatientUhidRoute
+  '/portal/patient/$uhid': typeof PortalPatientUhidRouteWithChildren
+  '/portal/patient/$uhid/access-log': typeof PortalPatientUhidAccessLogRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -126,10 +145,12 @@ export interface FileRouteTypes {
     | '/portal/facilities'
     | '/portal/queue'
     | '/portal/records'
+    | '/portal/register'
     | '/portal/search'
     | '/portal/'
     | '/api/hie/$'
     | '/portal/patient/$uhid'
+    | '/portal/patient/$uhid/access-log'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -138,10 +159,12 @@ export interface FileRouteTypes {
     | '/portal/facilities'
     | '/portal/queue'
     | '/portal/records'
+    | '/portal/register'
     | '/portal/search'
     | '/portal'
     | '/api/hie/$'
     | '/portal/patient/$uhid'
+    | '/portal/patient/$uhid/access-log'
   id:
     | '__root__'
     | '/'
@@ -151,10 +174,12 @@ export interface FileRouteTypes {
     | '/portal/facilities'
     | '/portal/queue'
     | '/portal/records'
+    | '/portal/register'
     | '/portal/search'
     | '/portal/'
     | '/api/hie/$'
     | '/portal/patient/$uhid'
+    | '/portal/patient/$uhid/access-log'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -221,6 +246,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRecordsRouteImport
       parentRoute: typeof PortalRouteRoute
     }
+    '/portal/register': {
+      id: '/portal/register'
+      path: '/register'
+      fullPath: '/portal/register'
+      preLoaderRoute: typeof PortalRegisterRouteImport
+      parentRoute: typeof PortalRouteRoute
+    }
     '/portal/search': {
       id: '/portal/search'
       path: '/search'
@@ -242,8 +274,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalPatientUhidRouteImport
       parentRoute: typeof PortalRouteRoute
     }
+    '/portal/patient/$uhid/access-log': {
+      id: '/portal/patient/$uhid/access-log'
+      path: '/access-log'
+      fullPath: '/portal/patient/$uhid/access-log'
+      preLoaderRoute: typeof PortalPatientUhidAccessLogRouteImport
+      parentRoute: typeof PortalPatientUhidRoute
+    }
   }
 }
+
+interface PortalPatientUhidRouteChildren {
+  PortalPatientUhidAccessLogRoute: typeof PortalPatientUhidAccessLogRoute
+}
+
+const PortalPatientUhidRouteChildren: PortalPatientUhidRouteChildren = {
+  PortalPatientUhidAccessLogRoute: PortalPatientUhidAccessLogRoute,
+}
+
+const PortalPatientUhidRouteWithChildren =
+  PortalPatientUhidRoute._addFileChildren(PortalPatientUhidRouteChildren)
 
 interface PortalRouteRouteChildren {
   PortalAuditRoute: typeof PortalAuditRoute
@@ -251,9 +301,10 @@ interface PortalRouteRouteChildren {
   PortalFacilitiesRoute: typeof PortalFacilitiesRoute
   PortalQueueRoute: typeof PortalQueueRoute
   PortalRecordsRoute: typeof PortalRecordsRoute
+  PortalRegisterRoute: typeof PortalRegisterRoute
   PortalSearchRoute: typeof PortalSearchRoute
   PortalIndexRoute: typeof PortalIndexRoute
-  PortalPatientUhidRoute: typeof PortalPatientUhidRoute
+  PortalPatientUhidRoute: typeof PortalPatientUhidRouteWithChildren
 }
 
 const PortalRouteRouteChildren: PortalRouteRouteChildren = {
@@ -262,9 +313,10 @@ const PortalRouteRouteChildren: PortalRouteRouteChildren = {
   PortalFacilitiesRoute: PortalFacilitiesRoute,
   PortalQueueRoute: PortalQueueRoute,
   PortalRecordsRoute: PortalRecordsRoute,
+  PortalRegisterRoute: PortalRegisterRoute,
   PortalSearchRoute: PortalSearchRoute,
   PortalIndexRoute: PortalIndexRoute,
-  PortalPatientUhidRoute: PortalPatientUhidRoute,
+  PortalPatientUhidRoute: PortalPatientUhidRouteWithChildren,
 }
 
 const PortalRouteRouteWithChildren = PortalRouteRoute._addFileChildren(

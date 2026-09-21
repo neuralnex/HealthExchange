@@ -20,3 +20,4 @@ dist/
 .vercel/
 screenshots/
 artifacts/
+node_modules/
