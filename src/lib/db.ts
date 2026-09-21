@@ -136,6 +136,11 @@ async function createPgliteSql(): Promise<Sql> {
   // — so an HMR reload after adding a migration file applies it live — with
   // passes serialized on a global chain so concurrent callers never
   // double-apply.
+  type PgliteTx = {
+    exec: (sql: string) => Promise<unknown>;
+    query: (text: string, params?: unknown[]) => Promise<unknown>;
+  };
+
   const migrate = async (): Promise<void> => {
     const migrations = import.meta.glob("/migrations/*.sql", {
       query: "?raw",
@@ -145,11 +150,11 @@ async function createPgliteSql(): Promise<Sql> {
     const doneRows = await pg.query<{ name: string }>(
       "select name from _migrations",
     );
-    const done = doneRows.rows.map((r) => r.name);
+    const done = doneRows.rows.map((r: { name: string }) => r.name);
     for (const { name, path } of pendingMigrations(Object.keys(migrations), done)) {
       // Apply + record atomically (parity with scripts/migrate.mjs) so a failed
       // statement can't leave a file half-applied but untracked.
-      await pg.transaction(async (tx) => {
+      await pg.transaction(async (tx: PgliteTx) => {
         await tx.exec(migrations[path]);
         await tx.query("insert into _migrations (name) values ($1)", [name]);
       });

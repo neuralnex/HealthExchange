@@ -1,0 +1,181 @@
+[
+  {
+    "resourceType": "Patient",
+    "id": "fmco-pt-8842",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FMCO-8842"
+      }
+    ],
+    "name": [
+      {
+        "family": "Okafor-Adeyemi",
+        "given": [
+          "Chidinma"
+        ]
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1994-03-12",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "0803 441 2291"
+      }
+    ],
+    "address": [
+      {
+        "text": "New Owerri"
+      }
+    ]
+  },
+  {
+    "resourceType": "Encounter",
+    "id": "fmco-enc-8842",
+    "status": "in-progress",
+    "class": {
+      "code": "EMER",
+      "display": "Emergency"
+    },
+    "type": [
+      {
+        "text": "Emergency: suspected pyelonephritis"
+      }
+    ],
+    "subject": {
+      "reference": "Patient/fmco-pt-8842"
+    },
+    "period": {
+      "start": "2026-09-20T11:05:00Z"
+    }
+  },
+  {
+    "resourceType": "Observation",
+    "id": "fmco-obs-8842a",
+    "status": "final",
+    "code": {
+      "text": "Triage blood pressure"
+    },
+    "subject": {
+      "reference": "Patient/fmco-pt-8842"
+    },
+    "effectiveDateTime": "2026-09-20T11:08:00Z",
+    "valueQuantity": {
+      "value": "158/96",
+      "unit": "mmHg"
+    }
+  },
+  {
+    "resourceType": "Observation",
+    "id": "fmco-obs-8842b",
+    "status": "final",
+    "code": {
+      "text": "Temperature"
+    },
+    "subject": {
+      "reference": "Patient/fmco-pt-8842"
+    },
+    "effectiveDateTime": "2026-09-20T11:08:00Z",
+    "valueQuantity": {
+      "value": "38.6",
+      "unit": "\u00b0C"
+    }
+  },
+  {
+    "resourceType": "Patient",
+    "id": "fmco-pt-3310",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FMCO-3310"
+      },
+      {
+        "system": "urn:ng:nin",
+        "value": "11223344557"
+      }
+    ],
+    "name": [
+      {
+        "family": "Eze",
+        "given": [
+          "Ikechukwu"
+        ]
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1998-07-04",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "08055501902"
+      }
+    ],
+    "address": []
+  },
+  {
+    "resourceType": "Condition",
+    "id": "fmco-cd-3310",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "Asthma, moderate persistent"
+    },
+    "subject": {
+      "reference": "Patient/fmco-pt-3310"
+    }
+  },
+  {
+    "resourceType": "Patient",
+    "id": "fmco-pt-7781",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FMCO-7781"
+      },
+      {
+        "system": "urn:ng:nin",
+        "value": "77889900112"
+      }
+    ],
+    "name": [
+      {
+        "family": "Bello",
+        "given": [
+          "Fatima"
+        ]
+      }
+    ],
+    "gender": "female",
+    "birthDate": "2001-05-09",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "09014443321"
+      }
+    ],
+    "address": []
+  },
+  {
+    "resourceType": "Condition",
+    "id": "fmco-cd-7781",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "First episode psychosis (provisional)"
+    },
+    "subject": {
+      "reference": "Patient/fmco-pt-7781"
+    }
+  }
+]

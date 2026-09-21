@@ -1,4 +1,28 @@
+from app.engine import Engine
 from app.matching import score_match
+
+
+def test_registration_without_facility_id_still_generates_summary():
+    eng = Engine()
+    actor = {"id": "prac-ngozi", "name": "Ngozi Hart", "title": "Mrs.", "facilityId": None}
+
+    result = eng.register_client(
+        {
+            "given": "Adaeze",
+            "family": "Agu",
+            "sex": "female",
+            "birthDate": "1990-02-01",
+            "phone": "08060000123",
+        },
+        actor,
+        "REG-TEST-401",
+    )
+
+    summary = eng.summary(actor, result["client"]["uhid"], "treatment")
+
+    assert summary["patient"]["given"] == "Adaeze"
+    assert summary["patient"]["family"] == "Agu"
+    assert summary["consent"]["allowed"] is True
 
 
 def test_star_er_case_is_confirm_band():

@@ -66,7 +66,7 @@ function AuditPage() {
                 Reset demo data
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 disabled={resetting || verifying}
                 onClick={() => void onVerify()}
               >

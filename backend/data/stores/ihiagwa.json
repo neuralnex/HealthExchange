@@ -1,0 +1,41 @@
+[
+  {
+    "resourceType": "Patient",
+    "id": "ihi-pt-077",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "PHC-IHI-077"
+      }
+    ],
+    "name": [
+      {
+        "family": "Dappa",
+        "given": [
+          "Tari"
+        ]
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1968-01-30",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "08033330008"
+      }
+    ],
+    "address": []
+  },
+  {
+    "resourceType": "Immunization",
+    "id": "ihi-imm-077",
+    "status": "completed",
+    "vaccineCode": {
+      "text": "Influenza (inactivated)"
+    },
+    "patient": {
+      "reference": "Patient/ihi-pt-077"
+    },
+    "occurrenceDateTime": "2026-09-10"
+  }
+]

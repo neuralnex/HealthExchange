@@ -413,6 +413,10 @@ function Section({
   title,
   empty,
   children,
+}: {
+  title: string;
+  empty: string;
+  children?: ReactNode;
 }) {
   return (
     <Card className="rounded-lg p-4">
@@ -420,12 +424,26 @@ function Section({
         <Shield className="size-3.5 text-fg-subtle" />
         <h2 className="text-sm font-medium">{title}</h2>
       </div>
-      {children && children.length > 0 ? <div className="space-y-3">{children}</div> : <p className="text-sm text-fg-muted">{empty}</p>}
+      {children && (Array.isArray(children) ? children.length > 0 : true) ? (
+        <div className="space-y-3">{children}</div>
+      ) : (
+        <p className="text-sm text-fg-muted">{empty}</p>
+      )}
     </Card>
   );
 }
 
-function Line({ title, meta, resource, onClick }) {
+function Line({
+  title,
+  meta,
+  resource,
+  onClick,
+}: {
+  title: string;
+  meta: string;
+  resource: FhirResource;
+  onClick: () => void;
+}) {
   return (
     <div
       className="cursor-pointer hover:bg-bg-elevated p-1 rounded transition-colors"
@@ -435,6 +453,22 @@ function Line({ title, meta, resource, onClick }) {
       <p className="text-xs text-fg-subtle">{meta}</p>
     </div>
   );
+}
+
+function valueOf(r: FhirResource): string {
+  const quantity = r.valueQuantity as { value?: number; unit?: string } | undefined;
+  if (quantity && typeof quantity.value === "number") {
+    return quantity.unit ? `${quantity.value} ${quantity.unit}` : String(quantity.value);
+  }
+  const stringValue = r.valueString;
+  if (typeof stringValue === "string") return stringValue;
+  const boolValue = r.valueBoolean;
+  if (typeof boolValue === "boolean") return String(boolValue);
+  const coded = r.valueCodeableConcept as { text?: string } | undefined;
+  if (coded?.text) return coded.text;
+  const numberValue = r.value as number | undefined;
+  if (typeof numberValue === "number") return String(numberValue);
+  return r.id;
 }
 
 function textOf(r: FhirResource, key: string): string {

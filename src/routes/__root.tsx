@@ -38,12 +38,12 @@ export const Route = createRootRoute({
         <HeadContent />
       </head>
       <body className="bg-bg text-fg font-sans">
-        <PreviewHostBridge />
-        <AuthProvider>
-          <SessionProvider>
+        <SessionProvider>
+          <AuthProvider>
+            <PreviewHostBridge />
             <Outlet />
-          </SessionProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </SessionProvider>
         <Scripts />
       </body>
     </html>

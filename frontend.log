@@ -1,0 +1,856 @@
+
+> dev
+> node scripts/with-app-env.mjs vite dev --host 0.0.0.0 --port 8080
+
+5:35:24 AM [vite] (client) Re-optimizing dependencies because vite config has changed
+
+  VITE v8.2.2  ready in 18926 ms
+
+  ➜  Local:   http://localhost:8080/
+  ➜  Network: http://172.20.10.5:8080/  eth1
+5:35:24 AM [vite] (ssr) connected.
+5:35:26 AM [vite] (client) [optimizer] bundling dependencies...
+5:39:40 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/search.tsx, /src/routes/portal/search.tsx?tsr-split=component
+5:39:40 AM [vite] (ssr) page reload src/routes/portal/search.tsx
+5:39:40 AM [vite] (ssr) program reload
+5:54:20 AM [vite] (client) hmr update /src/styles.css?direct, /src/lib/hie/session.tsx, /src/routes/portal/search.tsx?tsr-split=component, /src/routes/index.tsx?tsr-split=component, /src/routes/portal/index.tsx?tsr-split=component
+5:54:20 AM [vite] (ssr) page reload src/lib/hie/client.ts
+5:54:20 AM [vite] (client) hmr update /src/styles.css?direct, /src/lib/hie/session.tsx, /src/routes/portal/search.tsx?tsr-split=component, /src/routes/index.tsx?tsr-split=component, /src/routes/portal/index.tsx?tsr-split=component
+5:54:20 AM [vite] (ssr) page reload src/lib/hie/client.ts
+5:54:21 AM [vite] (client) hmr update /src/styles.css?direct
+5:54:21 AM [vite] (client) hmr invalidate /src/lib/hie/session.tsx Could not Fast Refresh ("useSession" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+5:54:21 AM [vite] (client) hmr update /src/routes/__root.tsx, /src/routes/portal/search.tsx?tsr-split=component, /src/components/layout/portal-shell.tsx, /src/routes/index.tsx?tsr-split=component, /src/routes/portal/index.tsx?tsr-split=component
+5:54:21 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:21 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:22 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/register.tsx
+5:54:22 AM [vite] (ssr) page reload src/routes/portal/register.tsx
+5:54:22 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/patient.$uhid.tsx
+5:54:22 AM [vite] (ssr) page reload src/routes/portal/patient.$uhid.tsx
+5:54:22 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/audit.tsx
+5:54:22 AM [vite] (ssr) page reload src/routes/portal/audit.tsx
+5:54:23 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:23 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:23 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:23 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:23 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:23 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:24 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:24 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:24 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:24 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:24 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:24 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:24 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:24 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:54:24 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:54:24 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:55:51 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/register.tsx
+5:55:51 AM [vite] (ssr) page reload src/routes/portal/register.tsx
+5:55:51 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:55:51 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:55:51 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:55:51 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct, /src/lib/hie/session.tsx, /src/routes/portal/search.tsx?tsr-split=component, /src/routes/index.tsx?tsr-split=component, /src/routes/portal/index.tsx?tsr-split=component
+5:57:17 AM [vite] (ssr) page reload src/lib/hie/client.ts
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/audit.tsx
+5:57:17 AM [vite] (ssr) page reload src/routes/portal/audit.tsx
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/patient.$uhid.tsx
+5:57:17 AM [vite] (ssr) page reload src/routes/portal/patient.$uhid.tsx
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/register.tsx
+5:57:17 AM [vite] (ssr) page reload src/routes/portal/register.tsx
+5:57:17 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/search.tsx, /src/routes/portal/search.tsx?tsr-split=component
+5:57:17 AM [vite] (ssr) page reload src/routes/portal/search.tsx
+5:57:17 AM [vite] (client) hmr invalidate /src/lib/hie/session.tsx Could not Fast Refresh ("useSession" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+5:57:17 AM [vite] (client) hmr update /src/routes/__root.tsx, /src/routes/portal/search.tsx?tsr-split=component, /src/components/layout/portal-shell.tsx, /src/routes/index.tsx?tsr-split=component, /src/routes/portal/index.tsx?tsr-split=component
+5:57:17 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:17 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:18 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:18 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:18 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:18 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:19 AM [vite] (client) [console.error] Error: useSession outside provider
+    at useSession (http://localhost:8080/src/lib/hie/session.tsx?t=1789966460483:46:18)
+    at PortalShell (http://localhost:8080/src/components/layout/portal-shell.tsx?t=1789966460483:78:35)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+    at performUnitOfWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8429:92)
+    at workLoopSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8325:37)
+    at renderRootSync (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:8309:6)
+
+The above error occurred in the <PortalShell> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+5:57:19 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/portal
+5:57:20 AM [vite] (client) [Unhandled rejection] TypeError: Failed to fetch
+ > request src/lib/hie/client.ts:59:20
+    57 |  
+    58 |    const base = import.meta.env.VITE_API_BASE_URL || "";
+    59 |    const res = await fetch(`${base}/api/hie/${path}`, { ...init, headers });
+       |                      ^
+    60 |  
+    61 |    const text = await res.text();
+ > Object.stats src/lib/hie/client.ts:151:15
+ > src/routes/portal/index.tsx?t=1789966637378&tsr-split=component:16:12
+ > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25989:19
+ > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+ > commitHookEffectListMount node_modules/react-dom/cjs/react-dom-client.development.js:13249:28
+ > commitHookPassiveMountEffects node_modules/react-dom/cjs/react-dom-client.development.js:13336:10
+ > commitPassiveMountOnFiber node_modules/react-dom/cjs/react-dom-client.development.js:15484:12
+ > recursivelyTraversePassiveMountEffects node_modules/react-dom/cjs/react-dom-client.development.js:15439:10
+ > commitPassiveMountOnFiber node_modules/react-dom/cjs/react-dom-client.development.js:15476:10
+
+5:59:41 AM [vite] http proxy error: /api/hie/health
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1135:18)
+    at afterConnectMultiple (node:net:1716:7)
+    at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17)
+6:10:27 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:10:27 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:11:18 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:11:18 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:12:12 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:12:12 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:13:24 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:13:24 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:17:09 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:17:09 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:06 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:06 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:12 AM [vite] (client) page reload backend/data/registry/facilities.json
+6:18:12 AM [vite] (client) page reload backend/data/system/practitioners.json
+6:18:12 AM [vite] (client) page reload backend/data/registry/clients.json
+6:18:12 AM [vite] (client) page reload backend/data/registry/links.json
+6:18:12 AM [vite] (client) page reload backend/data/system/audit.json
+6:18:12 AM [vite] (client) page reload backend/data/system/queue.json
+6:18:12 AM [vite] (client) page reload backend/data/registry/consent.json
+6:18:12 AM [vite] (client) page reload backend/data/stores/fmco.json
+6:18:12 AM [vite] (client) page reload backend/data/stores/futomc.json
+6:18:12 AM [vite] (client) page reload backend/data/stores/ihiagwa.json
+6:18:12 AM [vite] (client) page reload backend/data/registry/clients.json
+6:18:12 AM [vite] (client) page reload backend/data/registry/links.json
+6:18:13 AM [vite] (client) page reload backend/data/system/audit.json
+6:18:16 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:16 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:51 AM [vite] (client) page reload backend/data/registry/links.json
+6:18:51 AM [vite] (client) page reload backend/data/registry/facilities.json
+6:18:51 AM [vite] (client) page reload backend/data/registry/clients.json
+6:18:51 AM [vite] (client) page reload backend/data/registry/consent.json
+6:18:51 AM [vite] (client) page reload backend/data/stores/futomc.json
+6:18:51 AM [vite] (client) page reload backend/data/stores/fmco.json
+6:18:51 AM [vite] (client) page reload backend/data/stores/ihiagwa.json
+6:18:51 AM [vite] (client) page reload backend/data/system/practitioners.json
+6:18:51 AM [vite] (client) page reload backend/data/system/audit.json
+6:18:51 AM [vite] (client) page reload backend/data/system/queue.json
+6:18:54 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:54 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:54 AM [vite] (client) page reload backend/data/registry/facilities.json
+6:18:54 AM [vite] (client) page reload backend/data/system/practitioners.json
+6:18:54 AM [vite] (client) page reload backend/data/registry/clients.json
+6:18:54 AM [vite] (client) page reload backend/data/registry/links.json
+6:18:54 AM [vite] (client) page reload backend/data/system/queue.json
+6:18:54 AM [vite] (client) page reload backend/data/stores/fmco.json
+6:18:54 AM [vite] (client) page reload backend/data/stores/futomc.json
+6:18:54 AM [vite] (client) page reload backend/data/stores/ihiagwa.json
+6:18:54 AM [vite] (client) page reload backend/data/registry/clients.json
+6:18:54 AM [vite] (client) page reload backend/data/registry/links.json
+6:18:54 AM [vite] (client) page reload backend/data/registry/consent.json
+6:18:54 AM [vite] (client) page reload backend/data/system/audit.json
+6:18:58 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:18:58 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:19:32 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:19:32 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:19:49 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:19:49 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:01 AM [vite] (client) page reload backend/data/registry/clients.json
+6:20:01 AM [vite] (client) page reload backend/data/registry/consent.json
+6:20:01 AM [vite] (client) page reload backend/data/registry/facilities.json
+6:20:01 AM [vite] (client) page reload backend/data/registry/links.json
+6:20:01 AM [vite] (client) page reload backend/data/system/audit.json
+6:20:01 AM [vite] (client) page reload backend/data/system/practitioners.json
+6:20:01 AM [vite] (client) page reload backend/data/system/queue.json
+6:20:01 AM [vite] (client) page reload backend/data/stores/fmco.json
+6:20:01 AM [vite] (client) page reload backend/data/stores/futomc.json
+6:20:01 AM [vite] (client) page reload backend/data/stores/ihiagwa.json
+6:20:01 AM [vite] (client) page reload backend/data/system/audit.json
+6:20:01 AM [vite] (client) page reload backend/data/registry/clients.json
+6:20:01 AM [vite] (client) page reload backend/data/registry/links.json
+6:20:03 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:03 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:37 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:37 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:52 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:52 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:55 AM [vite] (client) page reload backend/data/registry/clients.json
+6:20:55 AM [vite] (client) page reload backend/data/registry/consent.json
+6:20:55 AM [vite] (client) page reload backend/data/registry/facilities.json
+6:20:55 AM [vite] (client) page reload backend/data/registry/links.json
+6:20:55 AM [vite] (client) page reload backend/data/system/audit.json
+6:20:55 AM [vite] (client) page reload backend/data/system/practitioners.json
+6:20:55 AM [vite] (client) page reload backend/data/system/queue.json
+6:20:55 AM [vite] (client) page reload backend/data/stores/fmco.json
+6:20:55 AM [vite] (client) page reload backend/data/stores/futomc.json
+6:20:55 AM [vite] (client) page reload backend/data/stores/ihiagwa.json
+6:20:55 AM [vite] (client) page reload backend/data/registry/clients.json
+6:20:55 AM [vite] (client) page reload backend/data/registry/links.json
+6:20:55 AM [vite] (client) page reload backend/data/system/audit.json
+6:20:58 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:20:58 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:25:12 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:25:12 AM [vite] (client) [Unhandled rejection] Error: Invalid signature
+ > request src/lib/hie/client.ts:75:16
+    73 |  
+    74 |    if (!res.ok) {
+    75 |      const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
+       |                  ^
+    76 |        status: number;
+    77 |        code?: string;
+
+6:30:04 AM [vite] (client) [console.error] TypeError: Cannot read properties of null (reading 'toUpperCase')
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:59
+    at Array.map (<anonymous>)
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:35
+    at Array.map (<anonymous>)
+    at SearchPage (http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:258:24)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+
+The above error occurred in the <SearchPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+6:30:04 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/search/portal/search
+6:31:27 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/queue.tsx
+6:31:27 AM [vite] (ssr) page reload src/routes/portal/queue.tsx
+6:31:27 AM [vite] (ssr) program reload
+6:31:27 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/search.tsx, /src/routes/portal/search.tsx?tsr-split=component
+6:31:27 AM [vite] (ssr) page reload src/routes/portal/search.tsx
+6:31:29 AM [vite] (client) [console.error] TypeError: Cannot read properties of null (reading 'toUpperCase')
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:59
+    at Array.map (<anonymous>)
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:35
+    at Array.map (<anonymous>)
+    at SearchPage (http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:258:24)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+
+The above error occurred in the <SearchPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+6:31:29 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/search/portal/search
+6:31:29 AM [vite] (client) [console.error] TypeError: Cannot read properties of null (reading 'toUpperCase')
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:59
+    at Array.map (<anonymous>)
+    at http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:327:35
+    at Array.map (<anonymous>)
+    at SearchPage (http://localhost:8080/src/routes/portal/search.tsx?t=1789966637378&tsr-split=component:258:24)
+    at Object.react_stack_bottom_frame (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:12866:12)
+    at renderWithHooks (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:4213:19)
+    at updateFunctionComponent (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:5569:16)
+    at beginWork (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:6140:20)
+    at runWithFiberInDEV (http://localhost:8080/node_modules/.vite/deps/react-dom_client.js?v=3547c452:851:66)
+
+The above error occurred in the <SearchPage> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, CatchBoundary.
+
+6:31:29 AM [vite] (client) [console.warn] Warning: Error in route match: /portal/search/portal/search
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:10 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:24 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:24 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:24 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:24 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:55 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/search.tsx, /src/routes/portal/search.tsx?tsr-split=component
+6:32:55 AM [vite] (ssr) page reload src/routes/portal/search.tsx
+6:32:56 AM [vite] (client) hmr update /src/styles.css?direct, /src/routes/portal/queue.tsx
+6:32:56 AM [vite] (ssr) page reload src/routes/portal/queue.tsx
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
+6:32:57 AM [vite] (client) [console.error] Encountered two children with the same key, `null`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.

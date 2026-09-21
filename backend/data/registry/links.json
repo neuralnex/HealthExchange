@@ -1,0 +1,75 @@
+[
+  {
+    "id": "link-18472-futomc",
+    "uhid": "NG-IM-00018472",
+    "facilityId": "futomc",
+    "mrn": "FUTOMC-1001",
+    "localPatientId": "futomc-pt-1001",
+    "categories": [
+      "AllergyIntolerance",
+      "MedicationRequest",
+      "Condition",
+      "Encounter"
+    ],
+    "lastUpdated": "2026-08-14T16:40:00Z",
+    "status": "active"
+  },
+  {
+    "id": "link-19001-futomc",
+    "uhid": "NG-IM-00019001",
+    "facilityId": "futomc",
+    "mrn": "FUTOMC-2044",
+    "localPatientId": "futomc-pt-2044",
+    "categories": [
+      "Condition"
+    ],
+    "lastUpdated": "2026-06-01T10:00:00Z",
+    "status": "active"
+  },
+  {
+    "id": "link-19002-fmco",
+    "uhid": "NG-IM-00019002",
+    "facilityId": "fmco",
+    "mrn": "FMCO-3310",
+    "localPatientId": "fmco-pt-3310",
+    "categories": [
+      "Condition"
+    ],
+    "lastUpdated": "2026-05-20T11:00:00Z",
+    "status": "active"
+  },
+  {
+    "id": "link-22008-futomc",
+    "uhid": "NG-IM-00022008",
+    "facilityId": "futomc",
+    "mrn": "FUTOMC-5510",
+    "localPatientId": "futomc-pt-5510",
+    "categories": [
+      "Condition"
+    ],
+    "lastUpdated": "2026-08-28T12:00:00Z",
+    "status": "active"
+  },
+  {
+    "id": "link-23015-fmco",
+    "uhid": "NG-IM-00023015",
+    "facilityId": "fmco",
+    "mrn": "FMCO-7781",
+    "localPatientId": "fmco-pt-7781",
+    "categories": [
+      "Condition"
+    ],
+    "lastUpdated": "2026-09-12T18:00:00Z",
+    "status": "active"
+  },
+  {
+    "id": "link-00018473-registry",
+    "uhid": "NG-IM-00018473",
+    "facilityId": null,
+    "mrn": "REG-TEST-401",
+    "localPatientId": "registry-REG-TEST-401",
+    "categories": [],
+    "lastUpdated": "2026-09-21T05:20:55.606240+00:00",
+    "status": "active"
+  }
+]

@@ -1,0 +1,289 @@
+[
+  {
+    "resourceType": "Patient",
+    "id": "futomc-pt-1001",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FUTOMC-1001"
+      },
+      {
+        "system": "urn:ng:nin",
+        "value": "23489105673"
+      }
+    ],
+    "name": [
+      {
+        "family": "Okafor",
+        "given": [
+          "Chidinma Grace"
+        ]
+      }
+    ],
+    "gender": "female",
+    "birthDate": "1994-03-12",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "08034412291"
+      }
+    ],
+    "address": [
+      {
+        "text": "14 University Road, Ihiagwa"
+      }
+    ]
+  },
+  {
+    "resourceType": "AllergyIntolerance",
+    "id": "futomc-al-1001",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "criticality": "high",
+    "code": {
+      "text": "Penicillin G"
+    },
+    "patient": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "recordedDate": "2019-06-11",
+    "reaction": [
+      {
+        "manifestation": [
+          {
+            "text": "Anaphylaxis: facial swelling, wheeze, hypotension (2019)"
+          }
+        ],
+        "severity": "severe"
+      }
+    ]
+  },
+  {
+    "resourceType": "MedicationRequest",
+    "id": "futomc-med-1001a",
+    "status": "active",
+    "intent": "order",
+    "medicationCodeableConcept": {
+      "text": "Amlodipine 10 mg tablet"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "authoredOn": "2026-02-01",
+    "dosageInstruction": [
+      {
+        "text": "10 mg oral daily"
+      }
+    ]
+  },
+  {
+    "resourceType": "MedicationRequest",
+    "id": "futomc-med-1001b",
+    "status": "active",
+    "intent": "order",
+    "medicationCodeableConcept": {
+      "text": "Metformin 500 mg tablet"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "authoredOn": "2025-11-20",
+    "dosageInstruction": [
+      {
+        "text": "500 mg oral twice daily"
+      }
+    ]
+  },
+  {
+    "resourceType": "Condition",
+    "id": "futomc-cd-1001a",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "Essential hypertension"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "recordedDate": "2024-01-08"
+  },
+  {
+    "resourceType": "Condition",
+    "id": "futomc-cd-1001b",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "Type 2 diabetes mellitus"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "recordedDate": "2025-11-20"
+  },
+  {
+    "resourceType": "Encounter",
+    "id": "futomc-enc-1001",
+    "status": "finished",
+    "class": {
+      "code": "IMP",
+      "display": "Inpatient"
+    },
+    "type": [
+      {
+        "text": "Inpatient: hypertensive urgency with malaria"
+      }
+    ],
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "period": {
+      "start": "2026-08-11T09:10:00Z",
+      "end": "2026-08-14T16:20:00Z"
+    }
+  },
+  {
+    "resourceType": "Observation",
+    "id": "futomc-obs-1001a",
+    "status": "final",
+    "code": {
+      "text": "Blood pressure"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "effectiveDateTime": "2026-08-11T09:20:00Z",
+    "valueQuantity": {
+      "value": "168/102",
+      "unit": "mmHg"
+    }
+  },
+  {
+    "resourceType": "DocumentReference",
+    "id": "futomc-doc-1001",
+    "status": "current",
+    "type": {
+      "text": "Discharge summary"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-1001"
+    },
+    "date": "2026-08-14T16:30:00Z",
+    "description": "FUTO Medical Centre discharge summary, 14 Aug 2026",
+    "content": [
+      {
+        "attachment": {
+          "contentType": "text/plain",
+          "title": "Discharge",
+          "data": "Mrs Chidinma Okafor, 32F. Known T2DM and hypertension. Documented penicillin anaphylaxis; do not give beta-lactams."
+        }
+      }
+    ]
+  },
+  {
+    "resourceType": "Patient",
+    "id": "futomc-pt-2044",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FUTOMC-2044"
+      },
+      {
+        "system": "urn:ng:nin",
+        "value": "11223344556"
+      }
+    ],
+    "name": [
+      {
+        "family": "Eze",
+        "given": [
+          "Ikenna"
+        ]
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1998-07-04",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "08055501901"
+      }
+    ],
+    "address": []
+  },
+  {
+    "resourceType": "Condition",
+    "id": "futomc-cd-2044",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "Sickle cell disease (HbSS)"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-2044"
+    }
+  },
+  {
+    "resourceType": "Patient",
+    "id": "futomc-pt-5510",
+    "identifier": [
+      {
+        "system": "urn:ng:mrn",
+        "value": "FUTOMC-5510"
+      }
+    ],
+    "name": [
+      {
+        "family": "Dappa",
+        "given": [
+          "Tari"
+        ]
+      }
+    ],
+    "gender": "male",
+    "birthDate": "1968-01-30",
+    "telecom": [
+      {
+        "system": "phone",
+        "value": "08033330008"
+      }
+    ],
+    "address": []
+  },
+  {
+    "resourceType": "Condition",
+    "id": "futomc-cd-5510",
+    "clinicalStatus": {
+      "coding": [
+        {
+          "code": "active"
+        }
+      ]
+    },
+    "code": {
+      "text": "Heart failure with reduced EF"
+    },
+    "subject": {
+      "reference": "Patient/futomc-pt-5510"
+    }
+  }
+]

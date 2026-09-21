@@ -23,11 +23,25 @@ def verify(token: str) -> dict[str, Any]:
         raw, sig = token.split(".", 1)
     except ValueError as exc:
         raise ValueError("Malformed token") from exc
+
+    # Robust padding restoration for Base64
+    def add_padding(s: str) -> str:
+        return s + "=" * (-len(s) % 4)
+
     expected = hmac.new(JWT_SECRET.encode(), raw.encode(), hashlib.sha256).digest()
-    given = base64.urlsafe_b64decode(sig + "=" * (-len(sig) % 4))
+    try:
+        given = base64.urlsafe_b64decode(add_padding(sig))
+    except Exception:
+        raise ValueError("Invalid signature encoding")
+
     if not hmac.compare_digest(expected, given):
         raise ValueError("Invalid signature")
-    body = json.loads(base64.urlsafe_b64decode(raw + "=" * (-len(raw) % 4)))
+
+    try:
+        body = json.loads(base64.urlsafe_b64decode(add_padding(raw)))
+    except Exception:
+        raise ValueError("Invalid token payload encoding")
+
     if body.get("exp", 0) < time.time():
         raise ValueError("Expired token")
     return body

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "futomc",
+    "code": "NG-IM-FUTOMC",
+    "name": "FUTO Medical Centre",
+    "shortName": "FUTO MC",
+    "type": "teaching",
+    "lga": "Owerri West",
+    "state": "Imo",
+    "fhirBaseUrl": "https://fhir.mc.futo.edu.ng/fhir",
+    "status": "active"
+  },
+  {
+    "id": "fmco",
+    "code": "NG-IM-FMCO",
+    "name": "Federal Medical Centre Owerri",
+    "shortName": "FMC Owerri",
+    "type": "teaching",
+    "lga": "Owerri Municipal",
+    "state": "Imo",
+    "fhirBaseUrl": "https://fhir.fmcowerri.gov.ng/fhir",
+    "status": "active"
+  },
+  {
+    "id": "ihiagwa",
+    "code": "NG-IM-PHC-IHI",
+    "name": "Ihiagwa Primary Health Centre",
+    "shortName": "Ihiagwa PHC",
+    "type": "phc",
+    "lga": "Owerri West",
+    "state": "Imo",
+    "fhirBaseUrl": "https://fhir.ihiagwa.phc.im.gov.ng/fhir",
+    "status": "active"
+  }
+]

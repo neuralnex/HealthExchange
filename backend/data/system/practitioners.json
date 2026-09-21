@@ -1,0 +1,79 @@
+[
+  {
+    "id": "prac-emeeka",
+    "email": "emeeka.nwosu@fmcowerri.gov.ng",
+    "password": "FutoER2026",
+    "name": "Emeka Nwosu",
+    "title": "Dr.",
+    "role": "clinician",
+    "facilityId": "fmco",
+    "licence": "MDCN-IM-44821",
+    "specialty": "Emergency Medicine"
+  },
+  {
+    "id": "prac-adaeze",
+    "email": "adaeze.okonkwo@futo.edu.ng",
+    "password": "CampusWard2026",
+    "name": "Adaeze Okonkwo",
+    "title": "Dr.",
+    "role": "clinician",
+    "facilityId": "futomc",
+    "licence": "MDCN-IM-33019",
+    "specialty": "Internal Medicine"
+  },
+  {
+    "id": "prac-blessing",
+    "email": "blessing.amadi@ihiagwa.phc.im.gov.ng",
+    "password": "PhcDesk2026",
+    "name": "Blessing Amadi",
+    "title": "CHEW",
+    "role": "clinician",
+    "facilityId": "ihiagwa",
+    "licence": "CHPRBN-IM-10211",
+    "specialty": "Primary Care"
+  },
+  {
+    "id": "prac-ngozi",
+    "email": "ngozi.hart@hie.futo.edu.ng",
+    "password": "Registry2026",
+    "name": "Ngozi Hart",
+    "title": "Mrs.",
+    "role": "registrar",
+    "facilityId": null,
+    "licence": null,
+    "specialty": "Client Registry"
+  },
+  {
+    "id": "prac-ibrahim",
+    "email": "ibrahim.sani@hie.futo.edu.ng",
+    "password": "AuditTrail2026",
+    "name": "Ibrahim Sani",
+    "title": "Mr.",
+    "role": "auditor",
+    "facilityId": null,
+    "licence": null,
+    "specialty": "Compliance"
+  },
+  {
+    "id": "prac-admin",
+    "email": "campus.admin@hie.futo.edu.ng",
+    "password": "CampusNode2026",
+    "name": "Kelechi Wokoma",
+    "title": "Dr.",
+    "role": "state_admin",
+    "facilityId": null,
+    "licence": "MDCN-IM-11880",
+    "specialty": "Digital Health"
+  },
+  {
+    "id": "pat-chidinma",
+    "email": "chidinma.okafor@student.futo.edu.ng",
+    "password": "MyHealth2026",
+    "name": "Chidinma Okafor-Adeyemi",
+    "title": "",
+    "role": "patient",
+    "facilityId": null,
+    "licence": null,
+    "specialty": null
+  }
+]

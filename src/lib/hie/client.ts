@@ -1,7 +1,9 @@
 import type {
   AuditEvent,
   CareSummary,
+  ClientRecord,
   ConsentPolicy,
+  Demographics,
   Facility,
   FhirResource,
   MatchCandidate,
@@ -47,8 +49,28 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   headers.set("Accept", "application/json");
   if (init.body) headers.set("Content-Type", "application/json");
   if (token) headers.set("Authorization", `Bearer ${token}`);
-  const res = await fetch(`/api/hie/${path}`, { ...init, headers });
-  const data = (await res.json().catch(() => ({}))) as T & { error?: string; code?: string };
+
+  console.log(`[HIE Request] ${init.method || "GET"} /api/hie/${path}`, {
+    tokenExists: !!token,
+    body: init.body ? "Present" : "None",
+  });
+
+  const base = import.meta.env.VITE_API_BASE_URL || "";
+  const res = await fetch(`${base}/api/hie/${path}`, { ...init, headers });
+
+  const text = await res.text();
+  console.log(`[HIE Response] ${res.status} ${path}`, {
+    response: text,
+  });
+
+  let data;
+  try {
+    data = JSON.parse(text) as T & { error?: string; code?: string };
+  } catch (e) {
+    console.error(`[HIE Parse Error] Failed to parse JSON for ${path}:`, text);
+    data = { error: "Invalid JSON response from server" } as any;
+  }
+
   if (!res.ok) {
     const err = new Error(data.error ?? `Request failed (${res.status})`) as Error & {
       status: number;

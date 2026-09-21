@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -34,6 +34,10 @@ function bandTone(band: MatchCandidate["band"]) {
   return "neutral" as const;
 }
 
+function facilityLabel(facilityId: string | null | undefined) {
+  return facilityId ? facilityId.toUpperCase() : "REGISTRY";
+}
+
 function SearchPage() {
   const { demo } = Route.useSearch();
   const { user } = useSession();
@@ -43,15 +47,17 @@ function SearchPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirming, setConfirming] = useState<string | null>(null);
+  const autoSearchRanRef = useRef(false);
 
   useEffect(() => {
-    if (demo === "chidinma") {
-      void run(DEMO_CHIDINMA);
-    }
+    if (demo !== "chidinma" || autoSearchRanRef.current) return;
+    autoSearchRanRef.current = true;
+    void run(DEMO_CHIDINMA);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [demo]);
 
   async function run(q: SearchQuery = query) {
+    if (busy) return;
     setBusy(true);
     setError(null);
     try {
@@ -71,10 +77,11 @@ function SearchPage() {
     }
     setConfirming(c.uhid);
     try {
+      const facilityId = user.facilityId ?? "registry";
       await api.confirm({
         uhid: c.uhid,
-        facilityId: user.facilityId,
-        mrn: c.uhid === "NG-IM-00018472" && user.facilityId === "fmco" ? "FMCO-8842" : (c.links.find((l) => l.facilityId === user.facilityId)?.mrn ?? `${user.facilityId.toUpperCase()}-TEMP`),
+        facilityId,
+        mrn: c.uhid === "NG-IM-00018472" && user.facilityId === "fmco" ? "FMCO-8842" : (c.links.find((l) => l.facilityId === user.facilityId)?.mrn ?? `${facilityLabel(facilityId)}-TEMP`),
         queueId: c.uhid === "NG-IM-00018472" ? "q-er-chidinma" : undefined,
       });
       void navigate({ to: "/portal/patient/$uhid", params: { uhid: c.uhid } });
@@ -164,7 +171,7 @@ function SearchPage() {
                       <p className="mt-1 text-xs text-fg-subtle">
                         Known at{" "}
                         {c.links.length
-                          ? c.links.map((l) => l.facilityId.toUpperCase()).join(", ")
+                          ? c.links.map((l) => facilityLabel(l.facilityId)).join(", ")
                           : "no linked facility yet"}
                       </p>
                       <ul className="mt-2 flex flex-wrap gap-1.5">

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "q-er-chidinma",
+    "left": {
+      "facilityId": "fmco",
+      "mrn": "FMCO-8842",
+      "demographics": {
+        "given": "Chidinma",
+        "family": "Okafor-Adeyemi",
+        "sex": "female",
+        "birthDate": "1994-03-12",
+        "phone": "0803 441 2291",
+        "addressLine": "New Owerri",
+        "city": "Owerri",
+        "lga": "Owerri Municipal",
+        "state": "Imo"
+      }
+    },
+    "rightUhid": "NG-IM-00018472",
+    "score": 0.91,
+    "band": "confirm",
+    "reasons": [
+      "Strong name + DOB + identifier",
+      "Name similarity 1.00",
+      "Date of birth exact",
+      "Sex matches",
+      "Phone last-10 match"
+    ],
+    "status": "pending"
+  }
+]

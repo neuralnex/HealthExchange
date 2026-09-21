@@ -1,0 +1,37 @@
+[
+  {
+    "id": "con-18472-net",
+    "uhid": "NG-IM-00018472",
+    "scope": "network",
+    "directive": "permit",
+    "purpose": [
+      "treatment",
+      "emergency"
+    ],
+    "note": "Opt-in captured at FUTO Medical Centre registration, March 2025.",
+    "updatedAt": "2025-03-18T10:00:00Z"
+  },
+  {
+    "id": "con-23015-net",
+    "uhid": "NG-IM-00023015",
+    "scope": "network",
+    "directive": "deny",
+    "purpose": [
+      "treatment",
+      "emergency"
+    ],
+    "note": "Network opt-out. Emergency break-glass still available.",
+    "updatedAt": "2026-01-15T08:00:00Z"
+  },
+  {
+    "id": "con-22008-net",
+    "uhid": "NG-IM-00022008",
+    "scope": "network",
+    "directive": "permit",
+    "purpose": [
+      "treatment",
+      "emergency"
+    ],
+    "updatedAt": "2025-06-01T08:00:00Z"
+  }
+]

@@ -43,7 +43,7 @@ function QueuePage() {
                 <span className="font-medium">
                   {item.left.demographics.given} {item.left.demographics.family}
                 </span>{" "}
-                at {item.left.facilityId.toUpperCase()} ({item.left.mrn})
+                at {(item.left.facilityId ? item.left.facilityId.toUpperCase() : "REGISTRY")} ({item.left.mrn})
                 <span className="text-fg-muted"> → </span>
                 <span className="font-mono text-xs">{item.rightUhid}</span>
               </p>

@@ -173,8 +173,16 @@ function Field({
   onChange,
   type = "text",
   required = false,
+}: {
+  label: string;
+  value?: string;
+  onChange: (v: string) => void;
+  type?: string;
+  required?: boolean;
 }) {
   const id = label.toLowerCase().replace(/\s+/g, "-");
+  const normalizedValue = value ?? "";
+
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id} className={required ? "after:content-['*'] after:ml-0.5 after:text-danger" : ""}>
@@ -184,14 +192,14 @@ function Field({
         <select
           id={id}
           className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          value={value}
+          value={normalizedValue}
           onChange={(e) => onChange(e.target.value)}
         >
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
       ) : (
-        <Input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} />
+        <Input id={id} type={type} value={normalizedValue} onChange={(e) => onChange(e.target.value)} />
       )}
     </div>
   );

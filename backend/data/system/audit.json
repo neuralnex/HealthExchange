@@ -1,0 +1,52 @@
+[
+  {
+    "actorId": "system",
+    "actorName": "U-HRES",
+    "orgId": null,
+    "orgName": "State node",
+    "action": "system.seed",
+    "resource": "ClientRegistry",
+    "outcome": "success",
+    "breakGlass": false,
+    "id": "aud-1",
+    "ts": "2026-09-21T05:20:55.599985+00:00",
+    "ip": "10.20.4.12",
+    "prevHash": "genesis",
+    "hash": "be97bc92a73b7029"
+  },
+  {
+    "actorId": "prac-ngozi",
+    "actorName": "Mrs. Ngozi Hart",
+    "orgId": null,
+    "orgName": "FUTO Health Exchange",
+    "action": "mpi.register",
+    "resource": "ClientRegistry",
+    "outcome": "success",
+    "breakGlass": false,
+    "uhid": "NG-IM-00018473",
+    "purpose": "treatment",
+    "id": "aud-2",
+    "ts": "2026-09-21T05:20:55.606735+00:00",
+    "ip": "10.20.4.12",
+    "prevHash": "be97bc92a73b7029",
+    "hash": "880bba0a7bd3f095"
+  },
+  {
+    "actorId": "prac-ngozi",
+    "actorName": "Mrs. Ngozi Hart",
+    "orgId": null,
+    "orgName": "FUTO Health Exchange",
+    "action": "summary.read",
+    "resource": "Patient/NG-IM-00018473",
+    "outcome": "success",
+    "breakGlass": false,
+    "uhid": "NG-IM-00018473",
+    "purpose": "treatment",
+    "reason": null,
+    "id": "aud-3",
+    "ts": "2026-09-21T05:20:55.607291+00:00",
+    "ip": "10.20.4.12",
+    "prevHash": "880bba0a7bd3f095",
+    "hash": "b58d1c05d7ed93c5"
+  }
+]
